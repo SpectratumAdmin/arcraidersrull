@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Рулетка розыгрыша — Арк Рейдерс</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand__title">РУЛЕТКА РОЗЫГРЫША</div>
+      <div class="brand__subtitle">Арк Рейдерс • розыгрыши для стрима</div>
+    </div>
+
+    <div class="music">
+      <div class="music__row">
+        <label class="label" for="musicUrl">Музыка для прокрутки (URL)</label>
+        <input id="musicUrl" type="text" placeholder="https://example.com/track.mp3" />
+      </div>
+      <div class="music__hint">Музыка играет во время прокрутки и затухает при остановке</div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Блок "Все призы": растягивается вниз по контенту -->
+    <section class="panel panel--wide">
+      <div class="panel__head">
+        <div class="panel__title">Все призы</div>
+        <div class="panel__tools"></div>
+      </div>
+
+      <div class="allprizes" id="allPrizes"></div>
+    </section>
+
+    <div class="workspace">
+      <div class="scroll" id="scrollArea">
+        <div class="scroll__inner">
+          <section class="grid3">
+
+            <!-- RARE -->
+            <section class="panel panel--rare" data-rarity="rare" id="rareAnchor">
+              <div class="panel__head">
+                <div class="panel__title">Редкие</div>
+                <div class="badge badge--rare">Редкие</div>
+              </div>
+
+              <div class="section">
+                <aside class="section__left">
+                  <button class="btn btn--primary" type="button" data-action="spinPrize">Крутить приз</button>
+                  <button class="btn btn--secondary" type="button" data-action="spinPlayer">Крутить игрока</button>
+
+                  <div class="mini">
+                    <div class="mini__title">Состояние</div>
+                    <div class="mini__row"><span>Доступных призов:</span><b data-bind="available">0</b></div>
+                    <div class="mini__row"><span>Разыграно:</span><b data-bind="played">0</b></div>
+                  </div>
+                </aside>
+
+                <div class="section__center">
+                  <div class="wheel">
+                    <div class="wheel__title">Прокрутка</div>
+
+                    <div class="slot slot--tape" data-bind="slot">
+                      <div class="slot__glass"></div>
+                      <div class="slot__marker"></div>
+
+                      <div class="tape">
+                        <div class="tape__track" data-bind="tape"></div>
+                      </div>
+
+                      <div class="slot__hint" data-bind="slotText">Нажми «Крутить приз»</div>
+                    </div>
+
+                    <div class="picked">
+                      <div class="picked__title">Выбранный приз</div>
+                      <div class="picked__card" data-bind="pickedPrize">
+                        <div class="picked__empty">Пока ничего не выбрано</div>
+                      </div>
+
+                      <div class="picked__winner">
+                        <div class="picked__winnerTitle">Игрок для приза</div>
+                        <div class="picked__winnerBox" data-bind="winner">Нет</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="adder">
+                    <div class="adder__title">Добавить приз</div>
+
+                    <div class="form">
+                      <div class="field">
+                        <label class="label" for="rareImageUrl">Ссылка на картинку (URL)</label>
+                        <input id="rareImageUrl" type="text" placeholder="https://.../image.png" />
+                      </div>
+                      <div class="field">
+                        <label class="label" for="rareName">Название</label>
+                        <input id="rareName" type="text" placeholder="Например: Чертёж" />
+                      </div>
+                      <div class="field">
+                        <label class="label" for="rareDesc">Описание</label>
+                        <textarea id="rareDesc" rows="3" placeholder="Короткое описание приза"></textarea>
+                      </div>
+                      <button class="btn btn--ok" type="button"
+                              data-action="addPrize"
+                              data-img="rareImageUrl" data-name="rareName" data-desc="rareDesc">
+                        Добавить
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <aside class="section__right">
+                  <div class="listbox">
+                    <div class="listbox__head">
+                      <div class="listbox__title">Призы</div>
+                    </div>
+                    <div class="list" data-bind="prizeList"></div>
+                  </div>
+
+                  <div class="listbox">
+                    <div class="listbox__head">
+                      <div class="listbox__title">Игроки</div>
+                    </div>
+                    <div class="players">
+                      <textarea class="players__input" data-bind="playersInput" rows="6"
+                                placeholder="Вставь ники, по одному в строке"></textarea>
+                      <button class="btn btn--ok" type="button" data-action="addPlayers">Добавить</button>
+                      <div class="players__list" data-bind="playersList"></div>
+                    </div>
+                  </div>
+                </aside>
+              </div>
+            </section>
+
+            <!-- VERY RARE -->
+            <section class="panel panel--veryrare" data-rarity="veryRare" id="veryRareAnchor">
+              <div class="panel__head">
+                <div class="panel__title">Очень редкие</div>
+                <div class="badge badge--veryrare">Очень редкие</div>
+              </div>
+
+              <div class="section">
+                <aside class="section__left">
+                  <button class="btn btn--primary" type="button" data-action="spinPrize">Крутить приз</button>
+                  <button class="btn btn--secondary" type="button" data-action="spinPlayer">Крутить игрока</button>
+
+                  <div class="mini">
+                    <div class="mini__title">Состояние</div>
+                    <div class="mini__row"><span>Доступных призов:</span><b data-bind="available">0</b></div>
+                    <div class="mini__row"><span>Разыграно:</span><b data-bind="played">0</b></div>
+                  </div>
+                </aside>
+
+                <div class="section__center">
+                  <div class="wheel">
+                    <div class="wheel__title">Прокрутка</div>
+
+                    <div class="slot slot--tape" data-bind="slot">
+                      <div class="slot__glass"></div>
+                      <div class="slot__marker"></div>
+
+                      <div class="tape">
+                        <div class="tape__track" data-bind="tape"></div>
+                      </div>
+
+                      <div class="slot__hint" data-bind="slotText">Нажми «Крутить приз»</div>
+                    </div>
+
+                    <div class="picked">
+                      <div class="picked__title">Выбранный приз</div>
+                      <div class="picked__card" data-bind="pickedPrize">
+                        <div class="picked__empty">Пока ничего не выбрано</div>
+                      </div>
+
+                      <div class="picked__winner">
+                        <div class="picked__winnerTitle">Игрок для приза</div>
+                        <div class="picked__winnerBox" data-bind="winner">Нет</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="adder">
+                    <div class="adder__title">Добавить приз</div>
+
+                    <div class="form">
+                      <div class="field">
+                        <label class="label" for="veryRareImageUrl">Ссылка на картинку (URL)</label>
+                        <input id="veryRareImageUrl" type="text" placeholder="https://.../image.png" />
+                      </div>
+                      <div class="field">
+                        <label class="label" for="veryRareName">Название</label>
+                        <input id="veryRareName" type="text" placeholder="Например: Скин" />
+                      </div>
+                      <div class="field">
+                        <label class="label" for="veryRareDesc">Описание</label>
+                        <textarea id="veryRareDesc" rows="3" placeholder="Короткое описание приза"></textarea>
+                      </div>
+                      <button class="btn btn--ok" type="button"
+                              data-action="addPrize"
+                              data-img="veryRareImageUrl" data-name="veryRareName" data-desc="veryRareDesc">
+                        Добавить
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <aside class="section__right">
+                  <div class="listbox">
+                    <div class="listbox__head">
+                      <div class="listbox__title">Призы</div>
+                    </div>
+                    <div class="list" data-bind="prizeList"></div>
+                  </div>
+
+                  <div class="listbox">
+                    <div class="listbox__head">
+                      <div class="listbox__title">Игроки</div>
+                    </div>
+                    <div class="players">
+                      <textarea class="players__input" data-bind="playersInput" rows="6"
+                                placeholder="Вставь ники, по одному в строке"></textarea>
+                      <button class="btn btn--ok" type="button" data-action="addPlayers">Добавить</button>
+                      <div class="players__list" data-bind="playersList"></div>
+                    </div>
+                  </div>
+                </aside>
+              </div>
+            </section>
+
+            <!-- EXCLUSIVE -->
+            <section class="panel panel--exclusive" data-rarity="exclusive" id="exclusiveAnchor">
+              <div class="panel__head">
+                <div class="panel__title">Эксклюзивные</div>
+                <div class="badge badge--exclusive">Эксклюзивные</div>
+              </div>
+
+              <div class="section">
+                <aside class="section__left">
+                  <button class="btn btn--primary" type="button" data-action="spinPrize">Крутить приз</button>
+                  <button class="btn btn--secondary" type="button" data-action="spinPlayer">Крутить игрока</button>
+
+                  <div class="mini">
+                    <div class="mini__title">Состояние</div>
+                    <div class="mini__row"><span>Доступных призов:</span><b data-bind="available">0</b></div>
+                    <div class="mini__row"><span>Разыграно:</span><b data-bind="played">0</b></div>
+                  </div>
+                </aside>
+
+                <div class="section__center">
+                  <div class="wheel">
+                    <div class="wheel__title">Прокрутка</div>
+
+                    <div class="slot slot--tape" data-bind="slot">
+                      <div class="slot__glass"></div>
+                      <div class="slot__marker"></div>
+
+                      <div class="tape">
+                        <div class="tape__track" data-bind="tape"></div>
+                      </div>
+
+                      <div class="slot__hint" data-bind="slotText">Нажми «Крутить приз»</div>
+                    </div>
+
+                    <div class="picked">
+                      <div class="picked__title">Выбранный приз</div>
+                      <div class="picked__card" data-bind="pickedPrize">
+                        <div class="picked__empty">Пока ничего не выбрано</div>
+                      </div>
+
+                      <div class="picked__winner">
+                        <div class="picked__winnerTitle">Игрок для приза</div>
+                        <div class="picked__winnerBox" data-bind="winner">Нет</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="adder">
+                    <div class="adder__title">Добавить приз</div>
+
+                    <div class="form">
+                      <div class="field">
+                        <label class="label" for="exclusiveImageUrl">Ссылка на картинку (URL)</label>
+                        <input id="exclusiveImageUrl" type="text" placeholder="https://.../image.png" />
+                      </div>
+                      <div class="field">
+                        <label class="label" for="exclusiveName">Название</label>
+                        <input id="exclusiveName" type="text" placeholder="Например: Набор" />
+                      </div>
+                      <div class="field">
+                        <label class="label" for="exclusiveDesc">Описание</label>
+                        <textarea id="exclusiveDesc" rows="3" placeholder="Короткое описание приза"></textarea>
+                      </div>
+                      <button class="btn btn--ok" type="button"
+                              data-action="addPrize"
+                              data-img="exclusiveImageUrl" data-name="exclusiveName" data-desc="exclusiveDesc">
+                        Добавить
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <aside class="section__right">
+                  <div class="listbox">
+                    <div class="listbox__head">
+                      <div class="listbox__title">Призы</div>
+                    </div>
+                    <div class="list" data-bind="prizeList"></div>
+                  </div>
+
+                  <div class="listbox">
+                    <div class="listbox__head">
+                      <div class="listbox__title">Игроки</div>
+                    </div>
+                    <div class="players">
+                      <textarea class="players__input" data-bind="playersInput" rows="6"
+                                placeholder="Вставь ники, по одному в строке"></textarea>
+                      <button class="btn btn--ok" type="button" data-action="addPlayers">Добавить</button>
+                      <div class="players__list" data-bind="playersList"></div>
+                    </div>
+                  </div>
+                </aside>
+              </div>
+            </section>
+
+          </section>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <div class="nav__title">Переход</div>
+        <button class="btn btn--ghost nav__btn" type="button" data-jump="rareAnchor">Перейти к «Редким»</button>
+        <button class="btn btn--ghost nav__btn" type="button" data-jump="veryRareAnchor">Перейти к «Очень редким»</button>
+        <button class="btn btn--ghost nav__btn" type="button" data-jump="exclusiveAnchor">Перейти к «Эксклюзивным»</button>
+
+        <div class="nav__sep"></div>
+
+        <button class="btn btn--ghost nav__btn nav__btn--danger" type="button" id="resetData">
+          Сбросить данные
+        </button>
+      </nav>
+    </div>
+  </main>
+
+  <audio id="audio"></audio>
+  <script src="app.js"></script>
+</body>
+</html>
