@@ -16,8 +16,8 @@
   /* ВЫСОТЫ ПОД OBS 1080p */
   --topbarH: 92px;
 
-  /* БЫЛО 260px. УВЕЛИЧЕНО, чтобы было видно 50+ компактных карточек без внутреннего скролла */
-  --allPrizesH: 620px;
+  /* Под 36 компактных карточек (без внутреннего скролла) */
+  --allPrizesH: 460px;
 
   --gap: 14px;
 }
@@ -30,7 +30,6 @@ body{
   color:var(--text);
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
 
-  /* ВАЖНО: сайт должен скроллиться */
   overflow:auto;
 
   background:
@@ -129,24 +128,22 @@ body{
   position: sticky;
   top: calc(var(--topbarH) + var(--gap));
   z-index: 5;
-
-  /* фиксируем высоту контейнера */
   height: var(--allPrizesH);
 }
 
-/* СОДЕРЖИМОЕ БЕЗ ВНУТРЕННЕГО СКРОЛЛА + компактная сетка */
+/* Без внутреннего скролла */
 .allprizes{
   padding:10px;
-  height: calc(var(--allPrizesH) - 54px); /* 54px — высота шапки панели */
+  height: calc(var(--allPrizesH) - 54px);
   overflow: hidden;
 
   display:grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr)); /* фиксируем 6 колонок -> проще гарантировать 36 (6x6) */
   gap:8px;
-  align-content: start;
+  align-content:start;
 }
 
-/* ===== КОМПАКТНЫЕ карточки всех призов (слева картинка, справа 2 строки) ===== */
+/* ===== Компактные карточки (слева картинка, справа 2 строки) ===== */
 .ap{
   border-radius: 12px;
   border:1px solid rgba(255,255,255,.12);
@@ -155,7 +152,7 @@ body{
   position:relative;
 }
 
-/* Верхняя часть: картинка + текст */
+/* Верх: картинка + текст */
 .ap__top{
   display:grid;
   grid-template-columns: 34px 1fr;
@@ -164,7 +161,6 @@ body{
   align-items:center;
 }
 
-/* Картинка слева */
 .ap__img{
   width:34px;
   height:34px;
@@ -175,7 +171,6 @@ body{
 }
 .ap__img img{width:100%;height:100%;object-fit:cover;display:block}
 
-/* Название — 1 строка */
 .ap__name{
   font-weight:950;
   font-size:12px;
@@ -184,8 +179,6 @@ body{
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
-/* Описание — 1 строка (если пустое — просто будет пустая строка, но не ломает карточку) */
 .ap__desc{
   color:var(--muted);
   font-size:11px;
@@ -196,30 +189,28 @@ body{
   white-space: nowrap;
 }
 
-/* Нижнюю часть делаем минимальной и компактной */
+/* Низ: редкость + статус (очень компактно) */
 .ap__bottom{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:8px;
+  gap:6px;
   padding:6px 8px;
   border-top:1px solid rgba(255,255,255,.10);
   background: rgba(255,255,255,.03);
 }
-
-/* Плашки редкости/статуса — компактные и не вылезают */
 .ap__rar{
   display:inline-flex;
   align-items:center;
   gap:6px;
   padding:3px 7px;
-  border-radius: 999px;
+  border-radius:999px;
   border:1px solid rgba(255,255,255,.12);
   background: rgba(0,0,0,.18);
   font-size:10.5px;
   font-weight:850;
 
-  max-width: 58%;
+  max-width: 56%;
   overflow:hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -227,7 +218,6 @@ body{
 
 .ap--done{ opacity:.55; }
 
-/* Лента "Разыграно" — меньше, чтобы не мешала */
 .ribbon{
   position:absolute;
   top:6px;
